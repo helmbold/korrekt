@@ -23,7 +23,8 @@ class CandidateWithSoftAssertions<out T>(value: T) : Candidate<T>(value) {
         if (errors.isNotEmpty()) {
             val numbers = 1..errors.size
             val message = "The following ${errors.size} assertions failed:\n" +
-                    numbers.zip(errors).map { (no, message) -> "$no) $message" }.joinToString(separator = "\n")
+                    numbers.zip(errors).map { (number, message) -> "$number) $message" }
+                            .joinToString(separator = "\n")
             fail(message)
         }
     }
