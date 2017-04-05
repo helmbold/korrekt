@@ -7,10 +7,3 @@ fun Candidate<Boolean>.beFalse() {
 fun Candidate<Boolean>.beTrue() {
     assert(value, { "'$value' is false." })
 }
-
-class BooleanAssert(private val value: Boolean, private val soft: Boolean = false) {
-
-    fun beTrue() {
-        assert(value, { "'$value' is false." })
-    }
-}
