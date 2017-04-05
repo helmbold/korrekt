@@ -23,12 +23,12 @@ fun <T : Comparable<T>> Candidate<T>.beLessThanOrEqualTo(other: T): Candidate<T>
 
 fun <T : Comparable<T>> Candidate<T>.beBetween(lowerBound: T, upperBound: T): Candidate<T> {
     assert(value in lowerBound..upperBound) {
-        "'$value' was not between '$lowerBound and '$upperBound'."
+        "'$value' was not between '$lowerBound' and '$upperBound'."
     }
     return this
 }
 
 fun <T : Comparable<T>> Candidate<T>.beInRange(range: ClosedRange<T>): Candidate<T> {
-    assert(value in range) { "'$value' was not in range '${range.start}..${range.endInclusive}" }
+    assert(value in range) { "'$value' was not in range '${range.start}..${range.endInclusive}'." }
     return this
 }

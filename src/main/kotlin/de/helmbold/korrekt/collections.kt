@@ -7,18 +7,18 @@ fun <T : Collection<*>> Candidate<T>.haveSize(size: Int): Candidate<T> {
 }
 
 fun <T : Collection<*>> Candidate<T>.beEmpty(): Candidate<T> {
-  assert(value.isEmpty()) { "'$value' is not empty." }
+  assert(value.isEmpty()) { "'$value' was not empty." }
   return this
 }
 
 fun <E, T : Collection<E>> Candidate<T>.contain(element: E): Candidate<T> {
-  assert(value.contains(element), { "'$value' doesn't contain element '$element'" })
+  assert(value.contains(element), { "'$value' didn't contain element '$element'" })
   return this
 }
 
 fun <E, T : Collection<E>> Candidate<T>.containInAnyOrder(vararg elements: E): Candidate<T> {
   assert(value.containsAll(elements.toList())) {
-    "Doesn't contain elements '$elements' in any order."
+    "'$value' didn't contain elements '$elements' in any order."
   }
   return this
 }

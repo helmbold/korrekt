@@ -49,7 +49,7 @@ fun <T> Candidate<Array<T>>.beEqualTo(other: Array<T>): Candidate<Array<T>> {
  * Verifies that the array does not contain duplicate entries.
  */
 fun <T> Candidate<Array<T>>.notHaveDuplicates() : Candidate<Array<T>> {
-    value.toList().should.notHaveuplicates()
+    value.toList().should.notHaveDuplicates()
     return this
 }
 
