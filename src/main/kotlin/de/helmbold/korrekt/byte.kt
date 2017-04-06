@@ -44,7 +44,7 @@ fun Candidate<Byte>.beNegative(): Candidate<Byte> {
  * Verifies that the value is zero.
  */
 fun Candidate<Byte>.beZero(): Candidate<Byte> {
-    assert(value == 0 as Byte) { "'$value' was not 0." }
+    assert(value == 0.toByte()) { "'$value' was not 0." }
     return this
 }
 
@@ -52,6 +52,6 @@ fun Candidate<Byte>.beZero(): Candidate<Byte> {
  * Verifies that the value is not zero.
  */
 fun Candidate<Byte>.notBeZero(): Candidate<Byte> {
-    assert(value != 0 as Byte) { "'$value' was not 0." }
+    assert(value != 0.toByte()) { "'$value' was not 0." }
     return this
 }

@@ -73,3 +73,8 @@ infix fun <T> T.shouldSoftly(assertions: Candidate<T>.() -> Unit) {
     assertions(candidate)
     candidate.throwAssertionError()
 }
+
+fun main(args: Array<String>) {
+    val b: Byte = 59
+    b.should.beIn()
+}
