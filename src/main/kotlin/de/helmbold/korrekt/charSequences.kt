@@ -1,5 +1,7 @@
 package de.helmbold.korrekt
 
+import java.util.*
+
 /**
  * Verifies that the value contains the [sequence].
  */
