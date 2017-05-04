@@ -37,4 +37,6 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 #IDEA
-.idea
+.gradle
+build/
+/.idea/
