@@ -41,3 +41,19 @@ fun Candidate<Double>.notBeNegative(): Candidate<Double> {
   assert(value < 0.0) { "'$value' was negative." }
   return this
 }
+
+/**
+ * Verifies that the value is zero.
+ */
+fun Candidate<Double>.beZero(): Candidate<Double> {
+  assert(value == 0.toDouble()) { "'$value' was not 0." }
+  return this
+}
+
+/**
+ * Verifies that the value is not zero.
+ */
+fun Candidate<Double>.notBeZero(): Candidate<Double> {
+  assert(value != 0.toDouble()) { "'$value' was not 0." }
+  return this
+}
