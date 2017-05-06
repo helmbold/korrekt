@@ -5,3 +5,4 @@
 Add more assertions:
 
 * Futures
+* Streams?
