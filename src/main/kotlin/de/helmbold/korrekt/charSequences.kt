@@ -1,7 +1,5 @@
 package de.helmbold.korrekt
 
-import java.util.*
-
 /**
  * Verifies that the value contains the [sequence].
  */
@@ -207,7 +205,7 @@ fun Candidate<CharSequence>.beContainedIn(sequence: CharSequence): Candidate<Cha
 
 /**
  * Verifies that the value is not a subsequence of [sequence]. This is the counterpart to
- * [notContain].
+ * [notIntersectWith].
  */
 fun Candidate<CharSequence>.notBeContainedIn(sequence: CharSequence): Candidate<CharSequence> {
     assert(!sequence.contains(value)) {
