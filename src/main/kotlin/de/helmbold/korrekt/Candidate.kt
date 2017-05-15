@@ -1,5 +1,9 @@
 package de.helmbold.korrekt
 
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+
 /**
  * Wraps the value for better syntax completion
  */
@@ -15,7 +19,7 @@ open class Candidate<out T>(val value: T) {
     }
 }
 
-class CandidateWithSoftAssertions<out T>(value: T) : Candidate<T>(value) {
+open class CandidateWithSoftAssertions<out T>(value: T) : Candidate<T>(value) {
 
     private var errors = mutableListOf<String>()
 
@@ -36,6 +40,59 @@ class CandidateWithSoftAssertions<out T>(value: T) : Candidate<T>(value) {
     }
 }
 
+class LocalDateCandidate(value: LocalDate) : Candidate<LocalDate>(value)
+
+class LocalDateCandidateWithSoftAssertions(value: LocalDate) :
+        CandidateWithSoftAssertions<LocalDate>(value)
+
+val LocalDate.should: LocalDateCandidate
+    get() = LocalDateCandidate(this)
+
+infix fun LocalDate.should(assertions: LocalDateCandidate.() -> Unit) {
+    assertions(LocalDateCandidate(this))
+}
+
+infix fun LocalDate.shouldSoftly(assertions: LocalDateCandidateWithSoftAssertions.() -> Unit) {
+    val candidate = LocalDateCandidateWithSoftAssertions(this)
+    assertions(candidate)
+    candidate.throwAssertionError()
+}
+
+class LocalDateTimeCandidate(value: LocalDateTime) : Candidate<LocalDateTime>(value)
+
+class LocalDateTimeCandidateWithSoftAssertions(value: LocalDateTime) :
+        CandidateWithSoftAssertions<LocalDateTime>(value)
+
+val LocalDateTime.should: LocalDateTimeCandidate
+    get() = LocalDateTimeCandidate(this)
+
+infix fun LocalDateTime.should(assertions: LocalDateTimeCandidate.() -> Unit) {
+    assertions(LocalDateTimeCandidate(this))
+}
+
+infix fun LocalDateTime.shouldSoftly(assertions: LocalDateTimeCandidateWithSoftAssertions.() -> Unit) {
+    val candidate = LocalDateTimeCandidateWithSoftAssertions(this)
+    assertions(candidate)
+    candidate.throwAssertionError()
+}
+
+class LocalTimeCandidate(value: LocalTime) : Candidate<LocalTime>(value)
+
+class LocalTimeCandidateWithSoftAssertions(value: LocalTime) :
+        CandidateWithSoftAssertions<LocalTime>(value)
+
+val LocalTime.should: LocalTimeCandidate
+    get() = LocalTimeCandidate(this)
+
+infix fun LocalTime.should(assertions: LocalTimeCandidate.() -> Unit) {
+    assertions(LocalTimeCandidate(this))
+}
+
+infix fun LocalTime.shouldSoftly(assertions: LocalTimeCandidateWithSoftAssertions.() -> Unit) {
+    val candidate = LocalTimeCandidateWithSoftAssertions(this)
+    assertions(candidate)
+    candidate.throwAssertionError()
+}
 
 
 /**
@@ -72,9 +129,4 @@ infix fun <T> T.shouldSoftly(assertions: Candidate<T>.() -> Unit) {
     val candidate = CandidateWithSoftAssertions(this)
     assertions(candidate)
     candidate.throwAssertionError()
-}
-
-fun main(args: Array<String>) {
-    val b: Byte = 59
-    b.should.beIn()
 }
