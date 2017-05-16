@@ -32,9 +32,9 @@ fun <T> Candidate<List<T>>.contain(vararg elements: T): Candidate<List<T>> {
  * Verifies that the list does not contain any of the given [elements].
  */
 fun <T> Candidate<List<T>>.notContain(vararg elements: T): Candidate<List<T>> {
-    assert(!elements.all { value.contains(it)} ) {
+    assert(elements.none { value.contains(it) }) {
         val unwantedElements = value.intersect(elements.toList())
-        "'$value' should not contain '${elements.asString()}' but contains '$unwantedElements'."
+        "'$value' should not contain '${elements.asString()}' but contained '$unwantedElements'."
     }
     return this
 }
@@ -61,31 +61,24 @@ fun <T> Candidate<List<T>>.containExactly(vararg elements: T): Candidate<List<T>
 /**
  * Verifies that the list contains the given [sequence].
  */
-fun <T> Candidate<List<T>>.containSequence(vararg sequence: T): Candidate<List<T>> {
+fun <T : List<T>> Candidate<T>.containSequence(vararg sequence: T): Candidate<T> {
     require(sequence.isNotEmpty()) { "sequence must not be empty" }
-    val message = { "'$value' didn't contain sequence '${sequence.asString()}'." }
-    assert(sequence.size <= value.size, message)
-    val numberOfSlidingWindows = value.size - sequence.size + 1
-    val valueAsList = value.toList()
-    var sequenceFound = false
-    for (i in 0..numberOfSlidingWindows) {
-        val window = valueAsList.subList(fromIndex = i, toIndex = i + sequence.size - 1)
-        if (window.zip(sequence).all { (a, b) -> a == b }) {
-            sequenceFound = true
-        }
-    }
-    if (!sequenceFound) {
-        fail(message())
+    assert(value.sliding(windowSize = sequence.size).contains(sequence.toList())) {
+        "'$value' didn't contain sequence '${sequence.asString()}'."
     }
     return this
+}
+
+internal fun <T> List<T>.sliding(windowSize: Int): List<List<T>> {
+    return this.dropLast(windowSize - 1).mapIndexed { i, _ -> this.subList(i, i + windowSize) }
 }
 
 /**
  * Verifies that the list ends with the given [sequence].
  */
 fun <T> Candidate<List<T>>.endWith(vararg sequence: T): Candidate<List<T>> {
-    val end = { value.subList(fromIndex = value.size - sequence.size, toIndex = value.size) }
-    assert(sequence.size <= value.size && sequence.toList() == end()) {
+    val end = value.takeLast(sequence.size)
+    assert(sequence.toList() == end) {
         "'$value' didn't end with '${sequence.asString()}'."
     }
     return this
@@ -95,8 +88,8 @@ fun <T> Candidate<List<T>>.endWith(vararg sequence: T): Candidate<List<T>> {
  * Verifies that the list starts with the given [sequence].
  */
 fun <T> Candidate<List<T>>.startWith(vararg sequence: T): Candidate<List<T>> {
-    val start = { value.subList(fromIndex = 0, toIndex = sequence.size) }
-    assert(sequence.size <= value.size && sequence.toList() == start()) {
+    val start = value.take(sequence.size)
+    assert(sequence.size <= value.size && sequence.toList() == start) {
         "'$value' didn't start with '${sequence.asString()}'."
     }
     return this
@@ -107,11 +100,12 @@ fun <T> Candidate<List<T>>.startWith(vararg sequence: T): Candidate<List<T>> {
  */
 fun <T> Candidate<List<T>>.notHaveDuplicates(): Candidate<List<T>> {
     assert(value.size == value.toSet().size) {
-        val duplicates =
-                value.groupBy { it }
-                        .filter { (_, group) -> group.size > 1 }
-                        .map { (_, group) -> group.first() }
-        "'$value' didn't contain the following duplicates: '$duplicates'"
+        "'$value' did contain the following duplicates: '${value.duplicates()}'."
     }
     return this
 }
+
+fun <T> List<T>.duplicates() =
+        this.groupBy { it }
+                .filter { (_, group) -> group.size > 1 }
+                .map { (_, group) -> group.first() }
