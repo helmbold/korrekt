@@ -3,7 +3,7 @@ package de.helmbold.korrekt
 /**
  * Verifies thate the value is close to the [expected] one within the given [tolerance].
  */
-fun Candidate<Int>.beCloseTo(expected: Byte, tolerance: Byte): Candidate<Int> {
+fun Candidate<Int>.beCloseTo(expected: Int, tolerance: Int): Candidate<Int> {
     val lowerBound = expected - tolerance
     val upperBound = expected + tolerance
     assert(value in lowerBound..upperBound) {

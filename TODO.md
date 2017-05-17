@@ -6,3 +6,5 @@ Add more assertions:
 
 * Futures
 * Streams?
+* split file with date, LocalDateTime, LocalDate, LocalTime assertions?
+* Add assertions for specific array types (e. g. ByteArray)
