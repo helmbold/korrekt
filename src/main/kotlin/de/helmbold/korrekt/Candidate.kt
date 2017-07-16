@@ -27,7 +27,8 @@ open class CandidateWithSoftAssertions<out T>(value: T) : Candidate<T>(value) {
         if (errors.isNotEmpty()) {
             val header = "The following ${errors.size} assertions failed:\n"
             val numbers = 1..errors.size
-            val errorMessages = numbers.zip(errors).map { (number, message) -> "$number) $message" }
+            val errorMessages =
+                    numbers.zip(errors).map { (number, message) -> "$number) $message" }
             val assertionMessage = header + errorMessages.joinToString(separator = "\n")
             fail(assertionMessage)
         }
